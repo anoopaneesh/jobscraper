@@ -1,0 +1,60 @@
+version: '3.8'
+services:
+  scrapeserver:
+    build: ./backend/scrape-service
+    container_name: jobscraper-scrape-service
+    ports:
+      - 4115:4115
+    depends_on:
+      - mongodb
+    command: sh -c "/wait && npm start"
+    environment:
+      MONGO_URL: mongodb://mongodb:27017/
+      WAIT_HOSTS: mongodb:27017
+      WAIT_HOSTS_TIMEOUT: 300
+      WAIT_SLEEP_INTERVAL: 30
+      WAIT_HOST_CONNECT_TIMEOUT: 30
+    networks:
+      - app-network
+  apiserver:
+    build: ./backend/api-service
+    container_name: jobscraper-api-service
+    ports:
+      - 4114:4114
+    depends_on:
+      - mongodb
+    command: sh -c "/wait && npm start"
+    environment:
+      MONGO_URL: mongodb://mongodb:27017/
+      WAIT_HOSTS: mongodb:27017
+      WAIT_HOSTS_TIMEOUT: 300
+      WAIT_SLEEP_INTERVAL: 30
+      WAIT_HOST_CONNECT_TIMEOUT: 30
+    networks:
+      - app-network
+  mongodb:
+    image: mongo:latest
+    volumes:
+      - jobscraper:/data/db
+    ports:
+      - 27016:27017
+    networks:
+      - app-network
+  client:
+    build: ./frontend
+    container_name: jobscraper-frontend
+    depends_on:
+      - apiserver
+      - scrapeserver
+    ports:
+      - 4173:4173
+    environment:
+      VITE_API_URL: http://localhost:4114
+      VITE_SCRAPE_URL: http://localhost:4115
+    networks:
+      - app-network
+networks:
+    app-network:
+        driver: bridge
+volumes:
+    jobscraper:
