@@ -4,7 +4,6 @@ import { getLastScrape, getScrapes, startScrape } from "../services/ScrapeServic
 import ScrapeListItem from "../components/AllScrapes/ScrapeListItem"
 import ScrapeListLoading from "../components/AllScrapes/ScrapeListLoading"
 import { Box, Button, HStack, useToast } from "@chakra-ui/react"
-import { ScrapeStatus } from "../common/constant"
 import { useSocketData } from "../contexts/SocketContext"
 
 

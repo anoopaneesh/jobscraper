@@ -32,7 +32,6 @@ export function handler($,{logger}){
         const title = $(el).find('div.job-card__title-wrap > h3').first().text()
         const location = $(el).find('p.job-card__location').first().text()
         const link = `https://careers.makemytrip.com` +  $(el).attr('href') 
-        logger(title)
         jobs.push({
             title,
             location:location ? [location]:  [],

@@ -62,15 +62,53 @@ export const extractWebTemplate = `
 // Write code below
 `
 
+export const jobExtraTemplate = `
+
+// Use this Template
+// --------------------
+// export function getJobExtra(job) { 
+//      return {
+//         apiExtra: [
+//             // {
+//             //     name:"skills",
+//             //     keys:['json_path'],
+//               //     transform: "tskills" 
+//             // }
+//         ],
+//         scrapeExtra: [
+//             // {
+//             //     name:'skills',
+//             //     keys:['selector1'],
+//               //     transform:(name,keys,data) => {return data}
+//             // }
+//         ],
+//         // fetchLink : {
+//                 // api: () => 'fetch'
+//                 // scrape:''
+//         // }
+//      }
+// }
+// --------------------------------
+
+// Write code below
+
+
+`
+
 
 export const ScrapeStatus = {
     "Scraping": "Scraping",
-    "Completed":"Completed",
-    "Failed":"Failed"
+    "Completed": "Completed",
+    "Failed": "Failed",
+    "ExtraCompleted":"Extra Completed",
+    "ExtraScraping": "Extra Scraping", 
+    "ExtraFailed": "Extra Failed",
 }
 
 export const Events = {
     SCRAPE_START:'scrape-start',
-     SCRAPE_END:'scrape-end',
-     LOG_ENTRY:'log-entry'
+    SCRAPE_END:'scrape-end',
+    LOG_ENTRY:'log-entry',
+    SCRAPE_EXTRA_START:'scrape-extra-start',
+    SCRAPE_EXTRA_END:'scrape-extra-end',
 }

@@ -1,7 +1,7 @@
-export async function getAllCompanies() {
+export async function getAllCompanies(filter = {}) {
     try {
-        const url = `${import.meta.env.VITE_API_URL}/company`
-        const companies = await fetch(url).then(res => res.json())
+        const url = `${import.meta.env.VITE_API_URL}/company/all`
+        const companies = await fetch(url, { method: "POST", body: JSON.stringify({ filter }), headers: { 'Content-Type': 'application/json' } }).then(res => res.json())
         return companies
     } catch (error) {
         return { error: "Error fetching companies" }
@@ -63,6 +63,6 @@ export const deleteCompany = async (id) => {
         return data
 
     } catch (error) {
-        return {error:"Error deleting company"}
+        return { error: "Error deleting company" }
     }
 }

@@ -1,5 +1,6 @@
 export default {
     COMPANY:'company',
     JOB:'job',
-    SCRAPE:'scrape'
+    SCRAPE:'scrape',
+    SKILLS:"skills"
 }

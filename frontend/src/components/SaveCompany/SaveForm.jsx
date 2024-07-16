@@ -2,7 +2,7 @@ import { Button, Checkbox, FormControl, FormErrorMessage, FormLabel, HStack, Inp
 import EditorDialog from "./EditorDialog"
 import { EditIcon } from "@chakra-ui/icons"
 import { useFormikContext } from "formik"
-import { extractApiTemplate, extractWebTemplate, getPageTemplate } from "../../common/constant"
+import { extractApiTemplate, extractWebTemplate, getPageTemplate, jobExtraTemplate } from "../../common/constant"
 
 const SaveForm = (props) => {
     const {
@@ -72,7 +72,10 @@ const SaveForm = (props) => {
             <FormControl>
                 <Checkbox name="isActive" onChange={handleChange} checked={values.isActive} defaultChecked={values.isActive}>Is Active ?</Checkbox>
             </FormControl>
-            <FormControl isInvalid={errors.api} mt={4}>
+            <FormControl>
+                <Checkbox name="skills" onChange={handleChange} checked={values.skills} defaultChecked={values.skills}>Scrape Details ?</Checkbox>
+            </FormControl>
+            {values.isApi && <FormControl isInvalid={errors.api} mt={4}>
                 <HStack justify="space-between" mb={4}>
                     <FormLabel>API Extract Function</FormLabel>
                     <EditorDialog
@@ -92,8 +95,8 @@ const SaveForm = (props) => {
                     size='md'
                 />
                 {errors.api && <FormErrorMessage>{errors.api}</FormErrorMessage>}
-            </FormControl>
-            <FormControl isInvalid={errors.scrape} mt={4}>
+            </FormControl>}
+            {!values.isApi && <FormControl isInvalid={errors.scrape} mt={4}>
                 <HStack justify="space-between" mb={4}>
                     <FormLabel>Web Scrape Function</FormLabel>
                     <EditorDialog
@@ -113,7 +116,7 @@ const SaveForm = (props) => {
                     size='md'
                 />
                 {errors.scrape && <FormErrorMessage>{errors.scrape}</FormErrorMessage>}
-            </FormControl>
+            </FormControl>}
             <FormControl isInvalid={errors.page} mt={4}>
                 <HStack justify="space-between" mb={4}>
                     <FormLabel>Page Retrieve Function</FormLabel>
@@ -135,6 +138,27 @@ const SaveForm = (props) => {
                 />
                 {errors.page && <FormErrorMessage>{errors.page}</FormErrorMessage>}
             </FormControl>
+            {values.skills && <FormControl isInvalid={errors.jobExtra} mt={4}>
+                <HStack justify="space-between" mb={4}>
+                    <FormLabel>Job Extra Function</FormLabel>
+                    <EditorDialog
+                        title="Job Extra Function"
+                        buttonTitle="Open Editor"
+                        onSubmit={(value) => setFieldValue('jobExtra', value)}
+                        defaultValue={values.jobExtra}
+                        comments={jobExtraTemplate}
+                    />
+                </HStack>
+                <Textarea
+                    name="jobExtra"
+                    value={values.jobExtra}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    placeholder='Enter function to get extra details for job'
+                    size='md'
+                />
+                {errors.jobExtra && <FormErrorMessage>{errors.jobExtra}</FormErrorMessage>}
+            </FormControl>}
             <HStack>
                 <Button type="submit" disabled={isSubmitting}>
                     Save

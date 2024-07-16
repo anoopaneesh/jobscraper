@@ -5,7 +5,7 @@ import CompanyListItem from "../components/AllCompanies/CompanyListItem"
 import { Link } from "react-router-dom"
 import { Button, useToast } from "@chakra-ui/react"
 import CompanyListLoading from "../components/AllCompanies/CompanyListLoading"
-import { startScrapeCompany } from "../services/ScrapeService"
+import { startScrapeCompany, startScrapeExtraCompany } from "../services/ScrapeService"
 import { useSocketData } from "../contexts/SocketContext"
 
 const AllCompanies = () => {
@@ -44,6 +44,16 @@ const AllCompanies = () => {
         startScrapeCompany(id).then(res => {
             toast({
                 title: `Started Scrape at ${res?.timestamp || "NA"}`,
+                status: "success",
+                isClosable: true,
+                duration: 500,
+            })
+        })
+    }
+    const handleScrapeExtraClick = (id) => {
+        startScrapeExtraCompany([id]).then(res => {
+            toast({
+                title: `Started Extra Scrape at ${res?.timestamp || "NA"}`,
                 status: "success",
                 isClosable: true,
                 duration: 500,
@@ -92,6 +102,7 @@ const AllCompanies = () => {
             handleDelete={handleDelete}
             handleActiveToggle={handleActiveToggle}
             handleScrapeClick={handleScrapeClick}
+            handleScrapeExtraClick={handleScrapeExtraClick}
             scraping={scraping}
         />}
         loadingItem={<CompanyListLoading />}

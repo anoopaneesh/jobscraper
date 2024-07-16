@@ -4,7 +4,7 @@ import AppBar from './components/AppBar'
 import AllJobsPage from './pages/AllJobsPage'
 
 import { Suspense, lazy } from 'react'
-import CompanyListLoading from './components/AllCompanies/CompanyListLoading' 
+import CompanyListLoading from './components/AllCompanies/CompanyListLoading'
 import ScrapeListLoading from './components/AllScrapes/ScrapeListLoading'
 import SocketProvider from './contexts/SocketContext'
 import theme from './utils/theme'
@@ -12,6 +12,7 @@ const AllCompanies = lazy(() => import('./pages/AllCompanies'))
 const SaveCompany = lazy(() => import('./pages/SaveCompany'))
 const AllScrapes = lazy(() => import('./pages/AllScrapes'))
 const AllLogs = lazy(() => import('./pages/AllLogs'))
+const Analysis = lazy(() => import('./pages/Analysis'))
 
 const AppLayout = () => {
     return <>
@@ -50,6 +51,14 @@ const router = createBrowserRouter([
                     <ScrapeListLoading />
                 </Container>}>
                     <AllLogs />
+                </Suspense>
+            },
+            {
+                path: "analyze",
+                element: <Suspense fallback={<Container maxW="6xl" py={10}>
+                    <ScrapeListLoading />
+                </Container>}>
+                    <Analysis />
                 </Suspense>
             },
             {

@@ -1,12 +1,13 @@
 import { Router } from "express";
 import Company from "../models/company.model.js";
-import {  deleteCompany, getAllCompanies, getCompany, saveCompany, searchCompanies } from "../helpers/company.helper.js";
+import { deleteCompany, getAllCompanies, getCompany, saveCompany, searchCompanies } from "../helpers/company.helper.js";
 
 const route = Router()
 
-route.get('/', async (req, res) => {
+route.post('/all', async (req, res) => {
     const { limit, offset } = req.query
-    const companies = await getAllCompanies({}, Number(limit || "0"), Number(offset || "0"))
+    const { filter } = req.body
+    const companies = await getAllCompanies(filter, Number(limit || "0"), Number(offset || "0"))
     if (companies.error) {
         return res.status(500).json({
             error: result.error
@@ -30,7 +31,7 @@ route.post('/search', async (req, res) => {
 route.post('/', async (req, res) => {
     const body = req.body
     const company = Company(body);
-    if(body._id){
+    if (body._id) {
         company._id = body._id
     }
     const result = await saveCompany(company)
@@ -55,14 +56,14 @@ route.get('/:id', async (req, res) => {
     })
 })
 
-route.delete('/:id',async(req,res) => {
+route.delete('/:id', async (req, res) => {
     const id = req.params.id
     const result = await deleteCompany(id)
-    if(result.error){
-        return res.status(500).json({status:"error",message:result.error})
+    if (result.error) {
+        return res.status(500).json({ status: "error", message: result.error })
     }
     return res.json({
-        status:'success',
+        status: 'success',
         result
     })
 })

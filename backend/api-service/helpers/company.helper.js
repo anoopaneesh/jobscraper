@@ -31,6 +31,7 @@ export async function saveCompany(company) {
         company.link != null && (updateObj.link = company.link)
         company.isActive != null && (updateObj.isActive = company.isActive)
         company.linkedin != null && (updateObj.linkedin = company.linkedin)
+        company.skills != null && (updateObj.skills = company.skills)
         if (company.linkedin != null && (!exisitngCompany?.image || !company.image)) {
             updateObj.image = await getLinkedinImageUrl(company.linkedin)
         }
@@ -38,6 +39,7 @@ export async function saveCompany(company) {
         company.extract?.api != null && (updateObj["extract.api"] = company.extract.api)
         company.extract?.scrape != null && (updateObj["extract.scrape"] = company.extract.scrape)
         company.extract?.page != null && (updateObj["extract.page"] = company.extract.page)
+        company.extract?.jobExtra != null && (updateObj["extract.jobExtra"] = company.extract.jobExtra)
         const result = await coll.updateOne({ name: exisitngCompany?.name || "" }, {
             $set: {
                 ...updateObj

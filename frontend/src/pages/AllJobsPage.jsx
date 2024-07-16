@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react"
-import CompaniesFilter from "../components/AllJobsPage/CompaniesFilter"
+import Filter from "../components/Filter"
 import SearchList from "../components/SearchList"
 import { getAllCompanies } from "../services/CompanyService"
 import { getJobs, updateJob } from "../services/JobService"
@@ -88,10 +88,11 @@ const AllJobsPage = () => {
         placeholder="Frontend , Backend etc."
         listItem={(item) => <JobListItem key={item._id} {...item} company={companiesMap[item.company]} handleApplied={handleApplied} handleBookmark={bookmarkJob} />}
         loadingItem={<JobListLoading />}
-        actionItem={<CompaniesFilter
-            selectedCompanies={selectedCompanies}
-            setSelectedCompanies={setSelectedCompanies}
-            companies={companies}
+        actionItem={<Filter
+            selectedFilters={selectedCompanies}
+            setSelectedFilters={setSelectedCompanies}
+            filters={companies}
+            title="Companies"
         />}
     />
 }

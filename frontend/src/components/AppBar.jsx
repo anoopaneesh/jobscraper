@@ -2,7 +2,7 @@ import { Box, Button, HStack, Heading, Icon, IconButton, Tooltip, useColorMode }
 import { Link } from 'react-router-dom'
 import { Link as ChakraLink } from '@chakra-ui/react'
 import { MoonIcon, SunIcon } from "@chakra-ui/icons"
-import { FaBookmark, FaRegBookmark, FaSquareCheck } from "react-icons/fa6"
+import { FaBookmark, FaChartSimple, FaRegBookmark, FaSquareCheck } from "react-icons/fa6"
 import { FaRegCheckSquare } from "react-icons/fa"
 
 const AppBar = () => {
@@ -27,6 +27,13 @@ const AppBar = () => {
                 </ChakraLink>
             </HStack>
             <HStack w={40} justify="flex-end">
+                <Tooltip label='View Analysis'>
+                    <IconButton
+                        icon={<Icon as={FaChartSimple} />}
+                        as={Link}
+                        to="/analyze"
+                    />
+                </Tooltip>
                 <Tooltip label='Bookmarked Jobs'>
                     <IconButton
                         icon={<Icon as={FaBookmark} />}
@@ -37,10 +44,11 @@ const AppBar = () => {
                 <Tooltip label='Applied Jobs'>
                     <IconButton
                         icon={<Icon as={FaSquareCheck} />}
-                        as={Link} 
+                        as={Link}
                         to={"/?filters=" + JSON.stringify({ isApplied: true })}
                     />
                 </Tooltip>
+
                 <IconButton onClick={toggleColorMode} icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />} />
             </HStack>
         </HStack>

@@ -22,8 +22,9 @@ const SaveCompany = () => {
         linkedin: company?.linkedin ?? "",
         api: company?.extract.api ?? "",
         scrape: company?.extract.scrape ?? "",
-        page: company?.extract.page ?? ""
-
+        page: company?.extract.page ?? "",
+        skills: company?.skills ?? false, //TODO: needs to be changed to true
+        jobExtra: company?.extract.jobExtra ?? "",
     }
     const CompanySchema = Yup.object().shape({
         name: Yup.string()
@@ -38,7 +39,8 @@ const SaveCompany = () => {
         api: Yup.string().min(2, 'Too Short!'),
         scrape: Yup.string().min(2, 'Too Short!'),
         page: Yup.string().min(2, 'Too Short!'),
-
+        skills: Yup.bool(),
+        jobExtra: Yup.string().min(2, 'Too Short!'),
     });
 
     const handleFormSubmit = (values, { setSubmitting }) => {
@@ -50,10 +52,12 @@ const SaveCompany = () => {
                 link: values.link,
                 isActive: values.isActive,
                 linkedin: values.linkedin,
+                skills: values.skills,
                 extract: {
                     api: values.api,
                     scrape: values.scrape,
-                    page: values.page
+                    page: values.page,
+                    jobExtra: values.jobExtra
                 }
             }
             if (id) {

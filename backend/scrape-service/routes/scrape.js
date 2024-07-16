@@ -1,7 +1,7 @@
 import { Router } from "express";
 
 
-import { scrapeJobs } from "../helpers/scrape.helper.js";
+import { scrapeJobs, scrapeJobsExtra } from "../helpers/scrape.helper.js";
 import { Log, resetLog } from "../utils/utils.js";
 import { Events } from "../utils/constant.js";
 import { emit } from "../helpers/soket.helper.js";
@@ -20,7 +20,19 @@ route.post('/', async (req, res) => {
     })
 })
 
-
+route.post('/extra', async (req, res) => {
+    const companies = req.body.companies 
+    emit(Events.SCRAPE_EXTRA_START, 'scrape extra started')
+    resetLog(Log.scrape)
+    scrapeJobsExtra(companies || [])
+    return res.json({
+        status: "success",
+        result: {
+            message: "Started Extra Scraping",
+            timestamp: (new Date()).toISOString()
+        }
+    })
+})
 route.post('/:id', async (req, res) => {
     const id = req.params.id
     emit(Events.SCRAPE_START, 'scrape started')
@@ -34,5 +46,7 @@ route.post('/:id', async (req, res) => {
         }
     })
 })
+
+
 
 export default route

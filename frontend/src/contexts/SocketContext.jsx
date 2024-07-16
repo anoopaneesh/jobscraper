@@ -38,7 +38,25 @@ const SocketProvider = ({ children }) => {
                 })
             } else {
                 toast({
-                    title:`${data.count} Jobs Scraped`,
+                    title: `${data.count} Jobs Scraped`,
+                    status: "success",
+                    isClosable: true,
+                    duration: 2000,
+                })
+            }
+            setScraping(false)
+        }
+        function scrapeextraEnded(data) {
+            if (data.error) {
+                toast({
+                    title: data.error,
+                    status: "error",
+                    isClosable: true,
+                    duration: 2000,
+                })
+            } else {
+                toast({
+                    title: `Job Extra Scraped`,
                     status: "success",
                     isClosable: true,
                     duration: 2000,
@@ -56,6 +74,8 @@ const SocketProvider = ({ children }) => {
         socket.on(Events.SCRAPE_START, scrapestarted)
         socket.on(Events.SCRAPE_END, scrapeEnded)
         socket.on(Events.LOG_ENTRY, addLogEntry)
+        socket.on(Events.SCRAPE_EXTRA_START, scrapestarted)
+        socket.on(Events.SCRAPE_EXTRA_END, scrapeextraEnded)
 
         return () => {
             socket.off('connect', onConnect);
@@ -63,6 +83,8 @@ const SocketProvider = ({ children }) => {
             socket.off(Events.SCRAPE_START, scrapestarted)
             socket.off(Events.SCRAPE_END, scrapeEnded)
             socket.off(Events.LOG_ENTRY, addLogEntry)
+            socket.off(Events.SCRAPE_EXTRA_START, scrapestarted)
+            socket.off(Events.SCRAPE_EXTRA_END, scrapeextraEnded)
             socket.disconnect()
         };
     }, []);

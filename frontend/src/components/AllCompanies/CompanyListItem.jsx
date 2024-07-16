@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { deleteCompany } from "../../services/CompanyService";
 import { ChevronDownIcon, DeleteIcon, EditIcon, ExternalLinkIcon } from "@chakra-ui/icons";
 const CompanyListItem = (props) => {
-    const { name, image, link, linkedin,_id, handleDelete, handleActiveToggle, isActive, handleScrapeClick, scraping } = props
+    const { name, image, link, linkedin,_id, handleDelete, handleActiveToggle, isActive, handleScrapeClick,handleScrapeExtraClick, extract, scraping } = props
     return <Flex align="center" justify="space-between">
         <HStack align="center">
             <Image
@@ -39,8 +39,11 @@ const CompanyListItem = (props) => {
                 icon={<EditIcon />}
             />
             <IconButton aria-label={`delete_${_id}`} icon={<DeleteIcon />} onClick={() => handleDelete(_id)} colorScheme="red" />
-            <Button isLoading={scraping} px={4} onClick={() => handleScrapeClick(_id)}>
+            <Button isDisabled={scraping} px={4} onClick={() => handleScrapeClick(_id)}>
                 <Text mx={4}>Scrape</Text>
+            </Button>
+            <Button isDisabled={scraping || !extract.jobExtra} px={10} onClick={() => handleScrapeExtraClick(_id)}>
+                <Text mx={4}>Scrape Extra</Text>
             </Button>
             <Menu>
                 <MenuButton as={IconButton} aria-label='open links' icon={<ExternalLinkIcon />} />
