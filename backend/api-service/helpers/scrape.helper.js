@@ -1,7 +1,6 @@
 import collections from "../config/collections.js";
 import db from "../config/connection.js";
 
-
 export const getAllScrapes = async (filter, limit, offset) => {
     try {
         const coll = db.get().collection(collections.SCRAPE);

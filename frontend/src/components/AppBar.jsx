@@ -4,6 +4,7 @@ import { Link as ChakraLink } from '@chakra-ui/react'
 import { MoonIcon, SunIcon } from "@chakra-ui/icons"
 import { FaBookmark, FaChartSimple, FaRegBookmark, FaSquareCheck } from "react-icons/fa6"
 import { FaRegCheckSquare } from "react-icons/fa"
+import { IoDocumentText } from "react-icons/io5";
 
 const AppBar = () => {
     const { colorMode, toggleColorMode } = useColorMode()
@@ -27,6 +28,13 @@ const AppBar = () => {
                 </ChakraLink>
             </HStack>
             <HStack w={40} justify="flex-end">
+                <Tooltip label='Resume Matcher'>
+                    <IconButton
+                        icon={<Icon as={IoDocumentText} />}
+                        as={Link}
+                        to="/ats"
+                    />
+                </Tooltip>
                 <Tooltip label='View Analysis'>
                     <IconButton
                         icon={<Icon as={FaChartSimple} />}

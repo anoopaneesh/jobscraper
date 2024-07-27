@@ -13,6 +13,7 @@ const SaveCompany = lazy(() => import('./pages/SaveCompany'))
 const AllScrapes = lazy(() => import('./pages/AllScrapes'))
 const AllLogs = lazy(() => import('./pages/AllLogs'))
 const Analysis = lazy(() => import('./pages/Analysis'))
+const ResumeMatcher = lazy(() => import('./pages/ResumeMatcher'))
 
 const AppLayout = () => {
     return <>
@@ -59,6 +60,14 @@ const router = createBrowserRouter([
                     <ScrapeListLoading />
                 </Container>}>
                     <Analysis />
+                </Suspense>
+            },
+            {
+                path: "ats",
+                element: <Suspense fallback={<Container maxW="6xl" py={10}>
+                    <ScrapeListLoading />
+                </Container>}>
+                    <ResumeMatcher />
                 </Suspense>
             },
             {

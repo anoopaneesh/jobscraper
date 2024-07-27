@@ -1,6 +1,7 @@
 import collections from "../config/collections.js";
 import db from "../config/connection.js";
-import { ObjectId } from 'mongodb'
+import { GoogleGenerativeAI } from "@google/generative-ai";
+
 
 export async function analyzeCompanies(companies) {
     try {
@@ -30,4 +31,31 @@ export async function analyzeCompanies(companies) {
         console.log(error)
         return { error: "Error analyzing companies" }
     }
+}
+
+export const analyzeResume = async (resume, jobDesc) => {
+    const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const prompt = `
+    As an experienced Applicant Tracking System (ATS) analyst,
+with profound knowledge in technology, software engineering, full stack web development your role involves evaluating resumes against job descriptions.
+Recognizing the competitive job market, provide top-notch assistance for resume improvement.
+Your goal is to analyze the resume pdf file against the given job description, 
+assign a percentage match based on key criteria, and pinpoint missing keywords accurately.
+[note: show the percentage accurately, i noted that you are always showing 75%]
+
+
+description:${jobDesc}
+
+
+I want the response in one single string having the structure
+{{"Job Description Match":"%","Missing Keywords":[],"Candidate Summary":"","Experience":""}}`;
+
+    const result = await model.generateContent([prompt, {
+        inlineData: {
+            data: resume.data.toString("base64"),
+            mimeType: resume.mimetype
+        }
+    }]);
+    return result.response.text()
 }

@@ -6,6 +6,7 @@ import db from './config/connection.js'
 import jobsRouter from './routes/job.js'
 import analyzeRouter from './routes/analyze.js'
 import cors from 'cors'
+import fileUpload from 'express-fileupload'
 
 db.connectDB()
 const app = express()
@@ -18,6 +19,10 @@ app.get('/', (req, res) => {
 
 app.use(cors({ origin: '*' }))
 app.use(express.json())
+app.use(fileUpload({
+    useTempFiles : true,
+    tempFileDir : '/tmp/'
+}));
 app.use('/jobs', jobsRouter)
 app.use('/company', companyRouter)
 app.use('/scrape', scrapeRouter)
